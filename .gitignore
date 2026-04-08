@@ -1,0 +1,92 @@
+# =========================
+# General
+# =========================
+.DS_Store
+Thumbs.db
+**/*.log
+**/*.tmp
+**/*.swp
+.env
+.env.*
+
+# =========================
+# Node / React / React Native
+# =========================
+**/node_modules/
+**/.expo/
+**/.expo-shared/
+**/.next/
+**/.out/
+**/.metro-cache/
+
+# Logs
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+
+# Builds
+**/dist/
+**/build/
+
+# React Native
+**/android/build/
+**/android/app/build/
+**/ios/build/
+
+# iOS
+**/ios/Pods/
+**/ios/.symlinks/
+**/*.xcworkspace
+**/*.xcuserdata
+**/*.xcuserstate
+
+# =========================
+# Android / Kotlin
+# =========================
+**/.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+**/local.properties
+**/*.jks
+**/*.keystore
+
+# Android Studio
+**/.idea/
+**/*.iml
+
+# =========================
+# Flutter
+# =========================
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/.pub-cache/
+**/.pub/
+**/.flutter/
+
+# Flutter builds
+**/build/
+
+# Generated
+**/generated_plugin_registrant.dart
+
+# =========================
+# Coverage / Testing
+# =========================
+**/coverage/
+**/*.lcov
+
+# =========================
+# Editors
+# =========================
+**/.vscode/
+**/.idea/
+
+# =========================
+# Locks (mantener)
+# =========================
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml
+!pubspec.lock
