@@ -41,7 +41,7 @@ fun main() {
      
 }
 
-18.1 Ejercicio 
+
 fun main() {
     var input: String
     
