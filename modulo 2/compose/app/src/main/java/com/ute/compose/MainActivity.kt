@@ -24,8 +24,9 @@ class MainActivity : ComponentActivity() {
 
 
                 // Componentes material 3
-                Paso01_TextFieldScreen()
-                //  Paso02_CardScreen()
+                // Paso01CompraScreen()
+                // Paso01_TextFieldScreen()
+                Paso02_CardScreen()
                 // Paso03_LazyColumnScreen()
                 // Paso04_ScaffoldScreen()
                 // Paso05_NavBarScreen()

@@ -1,4 +1,4 @@
-package com.ute.compose.material
+package com.ute.compose.ui.material3
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun Paso01TextFieldScreen() {
+fun Paso01_TextFieldScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -208,6 +208,6 @@ private fun DemoFormularioContacto() {
 
 @Preview(showBackground = true)
 @Composable
-fun Paso01Preview() {
-    MaterialTheme { Paso01TextFieldScreen() }
+fun Paso01_Preview() {
+    MaterialTheme { Paso01_TextFieldScreen() }
 }
