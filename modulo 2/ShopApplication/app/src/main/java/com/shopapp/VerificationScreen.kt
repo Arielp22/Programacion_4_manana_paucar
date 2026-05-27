@@ -89,7 +89,7 @@ fun VerificationScreen() {
                 letterSpacing = 1.sp,
                 modifier = Modifier
                     .padding(bottom = 12.dp)
-                    .align(Alignment.Start),
+                    .align(Alignment.Start),,
             )
 
             Row(
