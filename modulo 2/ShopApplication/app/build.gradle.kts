@@ -17,8 +17,8 @@ if (localPropertiesFile.exists()) {
 }
 
 val apiBaseUrl = localProperties.getProperty(
-        "API_BASE_URL",
-        "http://10.0.2.2:8000/api/"
+    "API_BASE_URL",
+    "http://10.0.2.2:8000/api/"
 )
 
 android {
@@ -33,9 +33,9 @@ android {
         versionName = "1.0"
 
         buildConfigField(
-                "String",
-                "API_BASE_URL",
-                "\"$apiBaseUrl\""
+            "String",
+            "API_BASE_URL",
+            "\"$apiBaseUrl\""
         )
     }
 
