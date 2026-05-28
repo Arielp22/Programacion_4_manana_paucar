@@ -1,3 +1,4 @@
+// presentation/viewmodel/AuthViewModel.kt
 package com.shopapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel

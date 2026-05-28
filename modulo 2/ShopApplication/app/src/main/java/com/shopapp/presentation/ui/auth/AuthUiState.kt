@@ -1,4 +1,6 @@
+// presentation/ui/auth/AuthUiState.kt
 package com.shopapp.presentation.ui.auth
+
 import com.shopapp.domain.model.LoggedUser
 
 sealed interface AuthUiState {
