@@ -1,6 +1,8 @@
 package com.shopapp.domain.repository
+import android.net.Uri
 import com.shopapp.domain.model.User
 import com.shopapp.domain.model.UserPayload
+
 
 interface UserRepository {
     suspend fun getUsers(
@@ -15,4 +17,8 @@ interface UserRepository {
     suspend fun deleteUser(id: Int): Result<Unit>
     suspend fun toggleActive(id: Int): Result<Boolean>
     suspend fun getStats(): Result<Map<String, Int>>
+
+    suspend fun getProfile(): Result<User>
+
+    suspend fun uploadAvatar(uri: Uri): Result<String>
 }
