@@ -1,3 +1,4 @@
+
 package com.shopapp.data.remote.api
 
 import com.shopapp.data.remote.dto.*
@@ -38,9 +39,24 @@ interface UserApi {
     @GET("users/stats/")
     suspend fun getStats(): Response<UserStatsDto>
 
+    @POST("auth/password-reset/")
+    suspend fun requestPasswordReset(
+        @Body body: PasswordResetRequestDto,
+    ): Response<MessageDto>
+
+    @POST("auth/password-reset/confirm/")
+    suspend fun confirmPasswordReset(
+        @Body body: PasswordResetConfirmDto,
+    ): Response<MessageDto>
+
     @Multipart
     @PATCH("users/profile/")
     suspend fun uploadAvatar(
         @Part avatar: MultipartBody.Part,
     ): Response<UserDto>
+
+    @POST("emails/send/")
+    suspend fun sendNotification(
+        @Body body: SendNotificationDto,
+    ): Response<NotificationResultDto>
 }
