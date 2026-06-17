@@ -352,6 +352,7 @@ private fun DashboardContent(
                         items(listOf(
                             Triple("+ Categoría", Info,    "admin/categories"),
                             Triple("+ Producto",  Accent,  "admin/products"),
+                            Triple("Notificar",   Accent,  "admin/notifications"),
                             Triple("Ver pedidos", Success, "admin/orders"),
                             Triple("Usuarios",    Warning, "admin/users"),
                         )) { (label, color, route) ->

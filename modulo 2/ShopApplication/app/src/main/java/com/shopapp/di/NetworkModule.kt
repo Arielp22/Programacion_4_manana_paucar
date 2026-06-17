@@ -1,9 +1,12 @@
-
 package com.shopapp.di
 
 import com.shopapp.BuildConfig
 import com.shopapp.data.local.TokenDataStore
-import com.shopapp.data.remote.api.*
+import com.shopapp.data.remote.api.AuthApi
+import com.shopapp.data.remote.api.CategoryApi
+import com.shopapp.data.remote.api.OrderApi
+import com.shopapp.data.remote.api.ProductApi
+import com.shopapp.data.remote.api.UserApi
 import com.shopapp.data.remote.interceptor.AuthInterceptor
 import com.shopapp.data.remote.interceptor.BearerTokenInterceptor
 import dagger.Module
@@ -21,49 +24,95 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    @Provides @Singleton
-    fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+    @Provides
+    @Singleton
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun provideOkHttpClient(
         tokenDataStore: TokenDataStore,
         authInterceptor: AuthInterceptor,
         logging: HttpLoggingInterceptor,
-    ): OkHttpClient = OkHttpClient.Builder()
-        .authenticator(authInterceptor)                          // renueva el token en 401
-        .addInterceptor(BearerTokenInterceptor(tokenDataStore))  // añade Bearer a cada request
-        .addInterceptor(logging)
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .build()
+    ): OkHttpClient {
 
-    @Provides @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.API_BASE_URL)
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+        return OkHttpClient.Builder()
 
-    @Provides @Singleton
-    fun provideAuthApi(retrofit: Retrofit): AuthApi =
+            // Renovar token automáticamente
+            .authenticator(authInterceptor)
+
+            // Agregar Authorization: Bearer ...
+            .addInterceptor(
+                BearerTokenInterceptor(tokenDataStore)
+            )
+
+            // Logs HTTP
+            .addInterceptor(logging)
+
+            // Timeouts ampliados para envío masivo
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(180, TimeUnit.SECONDS)
+            .writeTimeout(180, TimeUnit.SECONDS)
+
+            // Evitar corte por conexiones inactivas
+            .callTimeout(240, TimeUnit.SECONDS)
+
+            .retryOnConnectionFailure(true)
+
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(
+        client: OkHttpClient,
+    ): Retrofit {
+
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.API_BASE_URL)
+            .client(client)
+            .addConverterFactory(
+                GsonConverterFactory.create()
+            )
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(
+        retrofit: Retrofit,
+    ): AuthApi =
         retrofit.create(AuthApi::class.java)
 
-    @Provides @Singleton
-    fun provideCategoryApi(retrofit: Retrofit): CategoryApi =
+    @Provides
+    @Singleton
+    fun provideCategoryApi(
+        retrofit: Retrofit,
+    ): CategoryApi =
         retrofit.create(CategoryApi::class.java)
 
-    @Provides @Singleton
-    fun provideProductApi(retrofit: Retrofit): ProductApi =
+    @Provides
+    @Singleton
+    fun provideProductApi(
+        retrofit: Retrofit,
+    ): ProductApi =
         retrofit.create(ProductApi::class.java)
 
-    @Provides @Singleton
-    fun provideOrderApi(retrofit: Retrofit): OrderApi =
+    @Provides
+    @Singleton
+    fun provideOrderApi(
+        retrofit: Retrofit,
+    ): OrderApi =
         retrofit.create(OrderApi::class.java)
 
-    @Provides @Singleton
-    fun provideUserApi(retrofit: Retrofit): UserApi =
+    @Provides
+    @Singleton
+    fun provideUserApi(
+        retrofit: Retrofit,
+    ): UserApi =
         retrofit.create(UserApi::class.java)
 }

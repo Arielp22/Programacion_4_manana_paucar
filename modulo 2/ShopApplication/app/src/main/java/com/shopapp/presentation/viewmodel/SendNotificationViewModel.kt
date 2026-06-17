@@ -32,7 +32,7 @@ class SendNotificationViewModel @Inject constructor(
                     _state.update { it.copy(isLoading = false, result = result) }
                 }
                 .onFailure { e ->
-                    _state.update { it.copy(isLoading = false, error = e.message) }
+                    _state.update { it.copy(isLoading = false, error = "${e::class.simpleName}: ${e.message}") }
                 }
         }
     }

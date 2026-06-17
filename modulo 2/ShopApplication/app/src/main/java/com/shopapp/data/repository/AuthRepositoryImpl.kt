@@ -1,5 +1,5 @@
-package com.shopapp.data.repository
 
+package com.shopapp.data.repository
 
 import com.shopapp.data.local.TokenDataStore
 import com.shopapp.data.remote.api.AuthApi
@@ -7,9 +7,6 @@ import com.shopapp.data.remote.dto.*
 import com.shopapp.domain.model.LoggedUser
 import com.shopapp.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.first
-import com.shopapp.data.remote.dto.PasswordResetConfirmDto
-import com.shopapp.data.remote.dto.PasswordResetRequestDto
-
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -62,7 +59,6 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun isLoggedIn(): Boolean =
         !tokenDataStore.getAccessToken().isNullOrBlank()
-
 
     // Extrae el mensaje de error legible del JSON de Django
     private fun parseErrorMessage(body: String, code: Int): String {

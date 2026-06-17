@@ -15,7 +15,6 @@ interface AuthRepository {
     suspend fun getStoredUser(): TokenDataStore.UserSnapshot?
     suspend fun isLoggedIn(): Boolean
 
-    // ── Recuperación de contraseña ───────────────────────────────────────────
     suspend fun requestReset(email: String): Result<String>
     suspend fun confirmReset(
         uid:          String,

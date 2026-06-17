@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 data class ForgotPasswordUiState(
     val isLoading: Boolean = false,
-    val emailSent: Boolean = false,   // true tras respuesta 200 del backend
+    val emailSent: Boolean = false,
     val error:     String? = null,
 )
 
