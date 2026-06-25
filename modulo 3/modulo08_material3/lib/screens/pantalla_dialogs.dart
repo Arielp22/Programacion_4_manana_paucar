@@ -118,6 +118,35 @@ class PantallaDialogs extends StatelessWidget {
     }
   }
 
+ // Ejemplo snackbar
+  void _mostrarSnackBarBasico(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Snackbar ejemplo clase'),
+      ),
+    );
+  }
+
+  // ejemplo alert dialog 
+  Future<void> _mostrarAlertDialogBasico(
+      BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('AlertDialog básico'),
+        content: const Text(
+          'Ejemplo en clase alert dialog.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Aceptar'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs   = Theme.of(context).colorScheme;
@@ -139,12 +168,6 @@ class PantallaDialogs extends StatelessWidget {
             onPressed: () => _mostrarSnackBar(context),
             icon:  const Icon(Icons.check_circle_outline),
             label: const Text('SnackBar de éxito'),
-          ),
-          const SizedBox(height: 12),
-          FilledButton.icon(
-            onPressed: () => _mostrarSnackBar(context),
-            icon:  const Icon(Icons.check_circle_outline),
-            label: const Text('SnackBar de prueba'),
           ),
           const SizedBox(height: 8),
           FilledButton.icon(
@@ -171,20 +194,30 @@ class PantallaDialogs extends StatelessWidget {
             icon:  const Icon(Icons.delete_outline),
             label: const Text('Eliminar servidor (confirmación)'),
           ),
-          const SizedBox(height: 12),
-          OutlinedButton.icon(
-            style: OutlinedButton.styleFrom(
-              foregroundColor: cs.error,
-              side: BorderSide(color: cs.error),
-            ),
-            onPressed: () => _mostrarConfirmacion(context),
-            icon:  const Icon(Icons.delete_outline),
-            label: const Text('Eliminar boton de prueba'),
-          ),
           const SizedBox(height: 8),
           FilledButton.tonal(
             onPressed: () => _mostrarFormulario(context),
             child: const Text('Agregar servidor (formulario)'),
+          ),
+          // SnackBar ejemplo
+          
+          const SizedBox(height: 12),
+          FilledButton(
+            onPressed: () =>
+                _mostrarSnackBarBasico(context),
+            child: const Text(
+              'SnackBar ejemplo',
+            ),
+          ),
+          //alert ejemplo 
+          
+          const SizedBox(height: 12),
+          OutlinedButton(
+            onPressed: () =>
+                _mostrarAlertDialogBasico(context),
+            child: const Text(
+              'AlertDialog ejemplo',
+            ),
           ),
         ],
       ),
