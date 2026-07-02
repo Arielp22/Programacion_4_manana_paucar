@@ -1,12 +1,11 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modulo11_gorouter/router/approuterpaso2.dart';
 import 'router/app_router.dart';
-import 'router/app_router_paso2.dart';
-/*import 'router/app_router_paso3.dart';
-import 'router/app_router_paso4.dart';
-import 'router/app_router_paso5.dart';
-*/
+import 'router/approuterpaso3.dart';
+import 'router/approuterpaso4.dart';
+
 
 // ┌──────────────────────────────────────────────────────────────────┐
 // │  Cambia este número y guarda (Ctrl+S) para navegar entre pasos. │
@@ -16,7 +15,7 @@ import 'router/app_router_paso5.dart';
 // │  4  Paso 4  ShellRoute completo + NavigationBar persistente     │
 // │  5  Paso 5  Guard redirect + pantalla de login + Riverpod       │
 // └──────────────────────────────────────────────────────────────────┘
-const int paso = 2;
+const int paso = 4;
 
 void main() {
   runApp(
@@ -35,8 +34,8 @@ class AppMonitoreo extends StatelessWidget {
     final router = switch (paso) {
       1 => appRouter,
       2 => appRouterPaso2,
-      //3 => appRouterPaso3,
-      //4 => appRouterPaso4,
+      3 => appRouterPaso3,
+      4 => appRouterPaso4,
       //5 => appRouterPaso5(context),
       _ => appRouter,
     };

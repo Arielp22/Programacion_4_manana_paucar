@@ -1,6 +1,8 @@
 // lib/screens/pantalla_servidores.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:modulo11_gorouter/models/servidor_ssh.dart';
+
 
 class PantallaServidores extends StatelessWidget {
   const PantallaServidores({super.key});
@@ -9,7 +11,6 @@ class PantallaServidores extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final servidores = servidoresSimulados;
-
 
     return Scaffold(
       appBar: AppBar(
@@ -24,12 +25,15 @@ class PantallaServidores extends StatelessWidget {
           title:   Text(servidores[i].nombre),
           onTap: () {
             // context.push() — apila la pantalla (aparece botón "atrás")
-            context.push('/servidores/$${servidores[i].id}', 
-            extra: servidores[i],
+            context.push(
+             '/servidores/${servidores[i].id}',
+             extra: servidores[i],   // ServidorSSH completo
             );
           },
         ),
       ),
     );
   }
+  // Navegar con extras — pasa el objeto completo evitando una segunda búsqueda
+   
 }
