@@ -7,6 +7,8 @@ import '../screens/pantalla_detalle.dart';
 import '../screens/pantalla_metricas.dart';
 import '../screens/pantalla_ajustes.dart';
 import '../models/servidor_ssh.dart';
+import '../screens/pantalla_dashboard.dart';
+
 
 final appRouterPaso4 = GoRouter(
   initialLocation: '/servidores',
@@ -26,18 +28,22 @@ final appRouterPaso4 = GoRouter(
                 final id       = state.pathParameters['id']!;
                 final servidor = state.extra as ServidorSSH?;
                 return PantallaDetalle(id: id, servidor: servidor);
-              },
+              },              
             ),
           ],
         ),
         GoRoute(
           path:    '/metricas',
           builder: (_, __) => const PantallaMetricas(),
-        ),
+        ),        
         GoRoute(
           path:    '/ajustes',
           builder: (_, __) => const PantallaAjustes(),
         ),
+        GoRoute(
+          path:    '/Dashboard',
+          builder: (_, __) => const PantallaDashboard(),
+        ),        
       ],
     ),
   ],

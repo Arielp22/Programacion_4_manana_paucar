@@ -25,6 +25,7 @@ class ScaffoldConNav extends StatelessWidget {
             case 0: context.go('/servidores');
             case 1: context.go('/metricas');
             case 2: context.go('/ajustes');
+            case 3: context.go('/Dashboard');
           }
         },
         destinations: const [
@@ -39,6 +40,10 @@ class ScaffoldConNav extends StatelessWidget {
           NavigationDestination(
             icon: Icon(Icons.settings_outlined), selectedIcon: Icon(Icons.settings),
             label: 'Ajustes',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.dashboard_outlined), selectedIcon: Icon(Icons.dashboard),
+            label: 'Dashboard',
           ),
         ],
       ),
