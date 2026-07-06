@@ -1,9 +1,9 @@
 // lib/presentation/providers/auth_provider.dart
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_shop_app/data/remote/api/authremotedatasource.dart';
 import '../../core/error/api_exception.dart';
 import '../../data/local/secure_storage.dart';
-import '../../data/remote/api/auth_remote_datasource.dart';
 import '../../domain/model/auth_models.dart';
 import '../../domain/model/auth_state.dart';
 
