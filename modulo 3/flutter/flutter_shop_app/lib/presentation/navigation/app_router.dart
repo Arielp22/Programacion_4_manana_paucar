@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_shop_app/presentation/screens/admin/categoriesadminscreen.dart';
 import 'package:flutter_shop_app/presentation/screens/admin/dashboard_screen.dart';
 import 'package:flutter_shop_app/presentation/screens/auth/profile_screen.dart';
 import 'package:flutter_shop_app/presentation/screens/cart/cart_screen.dart';
@@ -119,11 +120,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         ),
       ),
       GoRoute(
-        path: '/admin/categories',
+        path:    '/admin/categories',
         builder: (_, state) => AdminShell(
           title:        'Categorías',
           currentRoute: state.matchedLocation,
-          child:        const _AdminPlaceholder('Categorías — M8'),
+          child:        const CategoriesAdminScreen(),
         ),
       ),
       GoRoute(
@@ -151,6 +152,7 @@ final routerProvider = Provider<GoRouter>((ref) {
               'Pedido #${state.pathParameters['id']} — M10'),
         ),
       ),
+      
       GoRoute(
         path: '/admin/users',
         builder: (_, state) => AdminShell(
