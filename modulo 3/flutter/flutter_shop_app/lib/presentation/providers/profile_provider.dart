@@ -2,11 +2,10 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_shop_app/domain/model/user_profile.dart';
 
 import '../../core/error/api_exception.dart';
 import '../../data/remote/api/dio_client.dart';
-
+import '../../domain/model/user_profile.dart';
 
 /// Obtiene el perfil completo del usuario autenticado desde /api/users/profile/.
 /// Incluye [avatarUrl], firstName, lastName y demás campos de [UserProfile].

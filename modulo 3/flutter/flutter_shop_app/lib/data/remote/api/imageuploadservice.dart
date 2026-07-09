@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../local/secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/config/app_config.dart';
@@ -18,17 +18,17 @@ class ImageUploadException implements Exception {
 
 /// Servicio para subir imágenes al API mediante multipart/form-data.
 class ImageUploadService {
-  ImageUploadService({FlutterSecureStorage? storage})
-      : _storage = storage ?? const FlutterSecureStorage();
+  ImageUploadService({SecureStorage? storage})
+      : _storage = storage ?? SecureStorage();
 
-  final FlutterSecureStorage _storage;
+  final SecureStorage _storage;
 
   // -------------------------------------------------------------------------
   // Privados
   // -------------------------------------------------------------------------
 
   Future<String?> _readToken() async {
-    return _storage.read(key: 'access_token');
+    return _storage.getAccess();
   }
 
   Map<String, String> _authHeaders(String token) => {
@@ -44,7 +44,8 @@ class ImageUploadService {
   }) async {
     final token = await _readToken();
     if (token == null) {
-      throw const ImageUploadException('No autenticado. Inicia sesión primero.');
+      throw const ImageUploadException(
+          'No autenticado. Inicia sesión primero.');
     }
 
     final mimeType = _mimeTypeFromPath(file.path);
@@ -97,9 +98,9 @@ class ImageUploadService {
     final ext = path.split('.').last.toLowerCase();
     return switch (ext) {
       'jpg' || 'jpeg' => http.MediaType('image', 'jpeg'),
-      'png'           => http.MediaType('image', 'png'),
-      'webp'          => http.MediaType('image', 'webp'),
-      _               => http.MediaType('image', 'jpeg'),
+      'png' => http.MediaType('image', 'png'),
+      'webp' => http.MediaType('image', 'webp'),
+      _ => http.MediaType('image', 'jpeg'),
     };
   }
 
@@ -117,7 +118,7 @@ class ImageUploadService {
     required int productId,
     required File file,
   }) async {
-    final uri  = Uri.parse('${AppConfig.baseUrl}/products/$productId/');
+    final uri = Uri.parse('${AppConfig.baseUrl}/products/$productId/');
     final body = await _upload(uri: uri, fieldName: 'image', file: file);
     return body['image_url'] as String?;
   }
@@ -129,7 +130,7 @@ class ImageUploadService {
   ///
   /// Devuelve la URL absoluta del avatar o null.
   Future<String?> uploadAvatar({required File file}) async {
-    final uri  = Uri.parse('${AppConfig.baseUrl}/users/profile/');
+    final uri = Uri.parse('${AppConfig.baseUrl}/users/profile/');
     final body = await _upload(uri: uri, fieldName: 'avatar', file: file);
     return body['avatar_url'] as String?;
   }

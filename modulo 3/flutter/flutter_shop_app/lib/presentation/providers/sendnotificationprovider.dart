@@ -2,7 +2,6 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_shop_app/data/remote/api/userremotedatasource.dart';
-import '../../data/remote/api/user_remote_datasource.dart';
 
 sealed class SendNotificationState {
   const SendNotificationState();

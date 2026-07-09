@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../widgets/auth_button.dart';
 
-
 class ResetPasswordConfirmScreen extends ConsumerStatefulWidget {
   const ResetPasswordConfirmScreen({super.key});
 

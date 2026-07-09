@@ -9,10 +9,11 @@ import '../../../domain/model/auth_models.dart';
 
 abstract class AuthRemoteDatasource {
   Future<LoggedUser> login(String username, String password);
-  Future<LoggedUser> register(String username, String email, String password, String password2);
-  Future<void>       logout();
-  Future<void>       requestPasswordReset(String email);
-  Future<void>       confirmPasswordReset({
+  Future<LoggedUser> register(
+      String username, String email, String password, String password2);
+  Future<void> logout();
+  Future<void> requestPasswordReset(String email);
+  Future<void> confirmPasswordReset({
     required String uid,
     required String token,
     required String newPassword,
@@ -21,12 +22,78 @@ abstract class AuthRemoteDatasource {
 }
 
 class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
-  final Dio           _dio;
+  final Dio _dio;
   final SecureStorage _storage;
 
   AuthRemoteDatasourceImpl(this._dio, this._storage);
 
-  // ... login, register, logout sin cambios ...
+  @override
+  Future<LoggedUser> login(String username, String password) async {
+    try {
+      final res = await _dio.post(
+        '/auth/login/',
+        data: {'username': username, 'password': password},
+      );
+      final data = res.data as Map<String, dynamic>;
+      await _storage.saveTokens(
+          data['access'] as String, data['refresh'] as String);
+      await _storage.saveUser(
+        id: data['user_id'] as int,
+        username: data['username'] as String,
+        email: data['email'] as String,
+        isStaff: data['is_staff'] as bool,
+      );
+      return LoggedUser.fromMap(data);
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    }
+  }
+
+  @override
+  Future<LoggedUser> register(
+    String username,
+    String email,
+    String password,
+    String password2,
+  ) async {
+    try {
+      final res = await _dio.post(
+        '/auth/register/',
+        data: {
+          'username': username,
+          'email': email,
+          'password': password,
+          'password2': password2,
+        },
+      );
+      final data = res.data as Map<String, dynamic>;
+      await _storage.saveTokens(
+          data['access'] as String, data['refresh'] as String);
+      await _storage.saveUser(
+        id: data['user_id'] as int,
+        username: data['username'] as String,
+        email: data['email'] as String,
+        isStaff: data['is_staff'] as bool,
+      );
+      return LoggedUser.fromMap(data);
+    } on DioException catch (e) {
+      throw ApiException.fromDioError(e);
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    try {
+      final refresh = await _storage.getRefresh();
+      if (refresh != null && refresh.isNotEmpty) {
+        await _dio.post('/auth/logout/', data: {'refresh': refresh});
+      }
+    } catch (_) {
+      // Si el logout falla en el servidor, limpiamos localmente igual
+    } finally {
+      await _storage.clearSession();
+    }
+  }
 
   @override
   Future<void> requestPasswordReset(String email) async {
@@ -51,9 +118,9 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
       await _dio.post(
         '/auth/password-reset/confirm/',
         data: {
-          'uid':           uid,
-          'token':         token,
-          'new_password':  newPassword,
+          'uid': uid,
+          'token': token,
+          'new_password': newPassword,
           'new_password2': newPassword2,
         },
       );

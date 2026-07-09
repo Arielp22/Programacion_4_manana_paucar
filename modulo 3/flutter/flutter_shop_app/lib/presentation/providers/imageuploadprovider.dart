@@ -1,11 +1,8 @@
 // lib/presentation/providers/image_upload_provider.dart
 import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_shop_app/data/remote/api/imageuploadservice.dart';
 import 'package:image_picker/image_picker.dart';
-
-
 
 // ---------------------------------------------------------------------------
 // Estado

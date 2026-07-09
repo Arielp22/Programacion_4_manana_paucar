@@ -6,7 +6,6 @@ import 'package:flutter_shop_app/presentation/providers/imageuploadprovider.dart
 import 'package:go_router/go_router.dart';
 import '../../../theme/app_colors.dart';
 import '../../providers/auth_provider.dart';
-
 import '../../providers/profile_provider.dart';
 import '../../widgets/user_avatar.dart';
 
@@ -85,28 +84,6 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-              if (user?.isStaff == true) ...[
-                SizedBox(
-                  width:  double.infinity,
-                  height: 52,
-                  child:  ElevatedButton.icon(
-                    onPressed: () => context.go('/admin'),
-                    icon:  const Icon(Icons.admin_panel_settings_outlined),
-                    label: const Text('Panel Admin'),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width:  double.infinity,
-                  height: 52,
-                  child:  ElevatedButton.icon(
-                    onPressed: () => context.push('/send-notification'),
-                    icon:  const Icon(Icons.send_outlined),
-                    label: const Text('Enviar notificación'),
-                  ),
-                ),
-                const SizedBox(height: 12),
-              ],
               const SizedBox(height: 32),
 
               // Información de la cuenta
