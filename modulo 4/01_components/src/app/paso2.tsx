@@ -1,26 +1,35 @@
-// app/index.tsx
-import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import {
+  Alert,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
-function Paso2() {
+export default function Paso2() {
   return (
     <View style={styles.contenedor}>
       <Image
         source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
         style={styles.logo}
       />
-      <Text style={styles.titulo}>Conectar servidor</Text>
+
+      <Text style={styles.titulo}>Dashboard App</Text>
 
       <Pressable
         style={({ pressed }) => [
           styles.boton,
           pressed && styles.botonPresionado,
         ]}
-        onPress={() => Alert.alert('Conectando', 'Estableciendo conexión SSH...')}
+        onPress={() =>
+          Alert.alert('Conectando', 'Estableciendo conexión SSH...')
+        }
       >
         <Text style={styles.textoBoton}>Conectar SSH</Text>
       </Pressable>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -52,4 +61,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
   },
-})
+});
