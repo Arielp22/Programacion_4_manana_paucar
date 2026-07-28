@@ -2,48 +2,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'providers/auth_provider.dart';
-import 'router/app_router.dart';
-import 'router/approuterpaso2.dart';
-import 'router/approuterpaso3.dart';
-import 'router/approuterpaso4.dart';
-import 'router/approuterpaso5.dart';
+import 'providers/mp_auth_provider.dart';
+import 'router/mp_app_router.dart';
+import 'router/mp_approuterpaso2.dart';
+import 'router/mp_approuterpaso3.dart';
+import 'router/mp_approuterpaso4.dart';
+import 'router/mp_approuterpaso5.dart';
 
-// ┌──────────────────────────────────────────────────────────────────┐
-// │  Cambia este número y guarda (Ctrl+S) para navegar entre pasos. │
-// │  1  Paso 1  Rutas básicas + context.go / push / pop             │
-// │  2  Paso 2  pathParameters + pantalla de detalle                │
-// │  3  Paso 3  queryParameters + extras + filtro SSL               │
-// │  4  Paso 4  ShellRoute + NavigationBar persistente              │
-// │  5  Paso 5  Guard redirect + login + Riverpod                   │
-// └──────────────────────────────────────────────────────────────────┘
 const int paso = 5;
 
-void main() => runApp(const ProviderScope(child: AppMonitoreo(paso: paso)));
+void main() => runApp(const ProviderScope(child: MpAppVet(paso: paso)));
 
-class AppMonitoreo extends ConsumerWidget {
+class MpAppVet extends ConsumerWidget {
   final int paso;
-  const AppMonitoreo({super.key, required this.paso});
+  const MpAppVet({super.key, required this.paso});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(authProvider); // reaccionar a cambios de auth
+    ref.watch(mpAuthProvider);
 
     final router = switch (paso) {
-      1 => appRouter,
-      2 => appRouterPaso2,
-      3 => appRouterPaso3,
-      4 => appRouterPaso4,
-      5 => appRouterPaso5(ref),
-      _ => appRouter,
+      1 => mpAppRouter,
+      2 => mpAppRouterPaso2,
+      3 => mpAppRouterPaso3,
+      4 => mpAppRouterPaso4,
+      5 => mpAppRouterPaso5(ref),
+      _ => mpAppRouter,
     };
 
     return MaterialApp.router(
-      title:        'Monitor SSH',
+      title:        'Vet AP',
       debugShowCheckedModeBanner: false,
       routerConfig: router,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0D47A1)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2D6A4F)),
         useMaterial3: true,
       ),
     );

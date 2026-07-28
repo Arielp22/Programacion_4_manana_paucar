@@ -1,68 +1,55 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
-import 'widgets/formulario_servidor.dart';
-import 'models/servidor_ssh.dart';
-import 'widgets/fila_servidor.dart';
-import 'screens/pantalla_servidores.dart';
-import 'widgets/tarjeta_servidor_grid.dart';
-import 'screens/pantalla_busqueda.dart';
+import 'widgets/mp_formulario_mascota.dart';
+import 'models/mp_mascota.dart';
+import 'widgets/mp_fila_mascota.dart';
+import 'screens/mp_pantalla_mascotas.dart';
+import 'screens/mp_pantalla_busqueda.dart';
 
-
-
-
-// ┌──────────────────────────────────────────────────────────────────┐
-// │  Cambia este número y guarda (Ctrl+S) para navegar entre pasos. │
-// │  1  Paso 1  TextField + TextEditingController + FocusNode       │
-// │  2  Paso 2  Form + TextFormField + validación                   │
-// │  3  Paso 3  Modelo + ListView.builder + ListTile acciones       │
-// │  4  Paso 4  GridView.builder + toggle lista/grid                │
-// │  5  Paso 5  SearchBar + filtrado en tiempo real                 │
-// └──────────────────────────────────────────────────────────────────┘
 const int paso = 5;
 
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
   theme: ThemeData(
     colorScheme: ColorScheme.fromSeed(
-      seedColor: const Color(0xFF1B5E20),
+      seedColor: const Color(0xFF2D6A4F),
     ),
     useMaterial3: true,
   ),
   home: switch (paso) {
-    1 => const _Paso1(),
-    2 => const _Paso2(),
-    3 => const _Paso3(),
-    4 => const PantallaServidores(),
-    5 => const PantallaBusqueda(),
+    1 => const _MpPaso1(),
+    2 => const _MpPaso2(),
+    3 => const _MpPaso3(),
+    4 => const MpPantallaMascotas(),
+    5 => const MpPantallaBusqueda(),
 
     _ => Scaffold(
         body: Center(child: Text('Paso $paso: crea el widget primero'))),
   },
 ));
 
-// ─── Paso 1 — vive en main.dart ────────────────────────────────────────
-class _Paso1 extends StatefulWidget {
-  const _Paso1();
+class _MpPaso1 extends StatefulWidget {
+  const _MpPaso1();
   @override
-  State<_Paso1> createState() => _Paso1State();
+  State<_MpPaso1> createState() => _MpPaso1State();
 }
 
-class _Paso1State extends State<_Paso1> {
-  final _ctrlHostname = TextEditingController();
-  final _ctrlIp       = TextEditingController();
-  final _ctrlPuerto   = TextEditingController(text: '22');
-  final _ctrlServicio  = TextEditingController(text: 'Servicio Web');
-  final _focusIp      = FocusNode();
-  final _focusPuerto  = FocusNode();
+class _MpPaso1State extends State<_MpPaso1> {
+  final _ctrlNombre  = TextEditingController();
+  final _ctrlEspecie = TextEditingController();
+  final _ctrlEdad    = TextEditingController(text: '3');
+  final _ctrlDueno   = TextEditingController(text: 'Carlos Perez');
+  final _focusEspecie = FocusNode();
+  final _focusEdad   = FocusNode();
 
   @override
   void dispose() {
-    _ctrlHostname.dispose();
-    _ctrlIp.dispose();
-    _ctrlPuerto.dispose();
-    _ctrlServicio.dispose();
-    _focusIp.dispose();
-    _focusPuerto.dispose();
+    _ctrlNombre.dispose();
+    _ctrlEspecie.dispose();
+    _ctrlEdad.dispose();
+    _ctrlDueno.dispose();
+    _focusEspecie.dispose();
+    _focusEdad.dispose();
     super.dispose();
   }
 
@@ -72,7 +59,7 @@ class _Paso1State extends State<_Paso1> {
 
     return Scaffold(
       appBar: AppBar(
-        title:           const Text('Conexión SSH'),
+        title:           const Text('Registro de mascota'),
         backgroundColor: cs.primaryContainer,
         foregroundColor: cs.onPrimaryContainer,
       ),
@@ -82,37 +69,36 @@ class _Paso1State extends State<_Paso1> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
-              controller:      _ctrlHostname,
+              controller:      _ctrlNombre,
               decoration:      const InputDecoration(
-                labelText:  'Hostname',
-                hintText:   'prod-web-01',
-                prefixIcon: Icon(Icons.dns),
+                labelText:  'Nombre',
+                hintText:   'Max',
+                prefixIcon: Icon(Icons.pets),
                 border:     OutlineInputBorder(),
               ),
               textInputAction: TextInputAction.next,
-              onSubmitted:     (_) => _focusIp.requestFocus(),
+              onSubmitted:     (_) => _focusEspecie.requestFocus(),
             ),
             const SizedBox(height: 12),
             TextField(
-              controller:      _ctrlIp,
-              focusNode:       _focusIp,
+              controller:      _ctrlEspecie,
+              focusNode:       _focusEspecie,
               decoration:      const InputDecoration(
-                labelText:  'Dirección IP',
-                hintText:   '192.168.1.100',
-                prefixIcon: Icon(Icons.router),
+                labelText:  'Especie',
+                hintText:   'Perro, Gato...',
+                prefixIcon: Icon(Icons.pets),
                 border:     OutlineInputBorder(),
               ),
-              keyboardType:    TextInputType.number,
               textInputAction: TextInputAction.next,
-              onSubmitted:     (_) => _focusPuerto.requestFocus(),
+              onSubmitted:     (_) => _focusEdad.requestFocus(),
             ),
             const SizedBox(height: 12),
             TextField(
-              controller:  _ctrlPuerto,
-              focusNode:   _focusPuerto,
+              controller:  _ctrlEdad,
+              focusNode:   _focusEdad,
               decoration:  const InputDecoration(
-                labelText:  'Puerto SSH',
-                prefixIcon: Icon(Icons.lock_outline),
+                labelText:  'Edad (anios)',
+                prefixIcon: Icon(Icons.cake),
                 border:     OutlineInputBorder(),
               ),
               keyboardType:    TextInputType.number,
@@ -126,34 +112,35 @@ class _Paso1State extends State<_Paso1> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Conectando a ${_ctrlHostname.text} '
-                      '(${_ctrlIp.text}:${_ctrlPuerto.text})',
+                      'Registrando a ${_ctrlNombre.text} '
+                      '(${_ctrlEspecie.text} - ${_ctrlEdad.text} anios)',
                     ),
                     behavior: SnackBarBehavior.floating,
                   ),
                 );
               },
-              icon:  const Icon(Icons.terminal),
-              label: const Text('Conectar'),
+              icon:  const Icon(Icons.pets),
+              label: const Text('Registrar'),
             ),
             const SizedBox(height: 8),
             OutlinedButton(
               onPressed: () {
-                _ctrlHostname.clear();
-                _ctrlIp.clear();
-                _ctrlPuerto.text = '22';
-                _ctrlServicio.text = 'Servicio Web';
+                _ctrlNombre.clear();
+                _ctrlEspecie.clear();
+                _ctrlEdad.text = '3';
+                _ctrlDueno.text = 'Carlos Perez';
               },
               child: const Text('Limpiar campos'),
-            ),                    
+            ),
           ],
         ),
       ),
     );
   }
 }
-class _Paso2 extends StatelessWidget {
-  const _Paso2();
+
+class _MpPaso2 extends StatelessWidget {
+  const _MpPaso2();
 
   @override
   Widget build(BuildContext context) {
@@ -161,18 +148,18 @@ class _Paso2 extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title:           const Text('Nuevo servidor'),
+        title:           const Text('Nueva mascota'),
         backgroundColor: cs.primaryContainer,
         foregroundColor: cs.onPrimaryContainer,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: FormularioServidor(
+        child: MpFormularioMascota(
           onGuardar: (datos) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                    'Guardado: ${datos['nombre']} — ${datos['ip']}:${datos['puerto']}'),
+                    'Guardado: ${datos['nombre']} — ${datos['especie']} (${datos['edad']} anios)'),
                 behavior: SnackBarBehavior.floating,
               ),
             );
@@ -182,18 +169,19 @@ class _Paso2 extends StatelessWidget {
     );
   }
 }
-class _Paso3 extends StatefulWidget {
-  const _Paso3();
+
+class _MpPaso3 extends StatefulWidget {
+  const _MpPaso3();
   @override
-  State<_Paso3> createState() => _Paso3State();
+  State<_MpPaso3> createState() => _MpPaso3State();
 }
 
-class _Paso3State extends State<_Paso3> {
-  final _servidores = [
-    ServidorSSH(id:'1', nombre:'prod-web-01',  ip:'10.0.2.10',   puerto:22,   usuario:'deploy',   so:'Ubuntu 24.04', ssl:true,  favorito:true),
-    ServidorSSH(id:'2', nombre:'prod-db-01',   ip:'10.0.2.20',   puerto:22,   usuario:'postgres', so:'Debian 12',    ssl:true),
-    ServidorSSH(id:'3', nombre:'staging-api',  ip:'10.0.3.10',   puerto:2222, usuario:'ubuntu',   so:'Ubuntu 24.04', ssl:false),
-    ServidorSSH(id:'4', nombre:'dev-sandbox',  ip:'192.168.1.5', puerto:22,   usuario:'vagrant',  so:'Alpine Linux', ssl:false),
+class _MpPaso3State extends State<_MpPaso3> {
+  final _mascotas = [
+    MpMascota(id:'1', nombre:'Max',  especie:'Perro', raza:'Labrador',    edad:3, dueno:'Carlos Perez', telefono:'0991234567', favorito:true),
+    MpMascota(id:'2', nombre:'Luna', especie:'Gato',  raza:'Siames',      edad:5, dueno:'Ana Gomez',    telefono:'0987654321'),
+    MpMascota(id:'3', nombre:'Rocky',especie:'Perro', raza:'Bulldog',     edad:2, dueno:'Luis Torres',  telefono:'0976543210'),
+    MpMascota(id:'4', nombre:'Piolin',especie:'Ave',  raza:'Canario',     edad:1, dueno:'Maria Diaz',   telefono:'0965432109'),
   ];
 
   @override
@@ -202,31 +190,31 @@ class _Paso3State extends State<_Paso3> {
 
     return Scaffold(
       appBar: AppBar(
-        title:           Text('Servidores (${_servidores.length})'),
+        title:           Text('Mascotas (${_mascotas.length})'),
         backgroundColor: cs.primaryContainer,
         foregroundColor: cs.onPrimaryContainer,
       ),
-      body: _servidores.isEmpty
+      body: _mascotas.isEmpty
           ? Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.dns_outlined, size: 56, color: cs.onSurfaceVariant),
+                  Icon(Icons.pets_outlined, size: 56, color: cs.onSurfaceVariant),
                   const SizedBox(height: 12),
-                  Text('Sin servidores',
+                  Text('Sin mascotas',
                       style: TextStyle(color: cs.onSurfaceVariant)),
                 ],
               ),
             )
           : ListView.separated(
-              itemCount:        _servidores.length,
+              itemCount:        _mascotas.length,
               separatorBuilder: (_, __) =>
                   const Divider(height: 1, indent: 72),
-              itemBuilder: (ctx, i) => FilaServidor(
-                servidor:   _servidores[i],
+              itemBuilder: (ctx, i) => MpFilaMascota(
+                mascota:   _mascotas[i],
                 onFavorito: () => setState(() =>
-                    _servidores[i].favorito = !_servidores[i].favorito),
-                onEliminar: () => setState(() => _servidores.removeAt(i)),
+                    _mascotas[i].favorito = !_mascotas[i].favorito),
+                onEliminar: () => setState(() => _mascotas.removeAt(i)),
               ),
             ),
     );

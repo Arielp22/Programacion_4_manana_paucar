@@ -1,36 +1,27 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
-import 'screens/pantalla_tema.dart';
-import 'screens/pantalla_appbar.dart';
-import 'widgets/catalogo_botones.dart';
-import 'screens/pantalla_navegacion.dart';
-import 'screens/pantalla_dialogs.dart';
+import 'screens/mp_pantalla_tema.dart';
+import 'screens/mp_pantalla_appbar.dart';
+import 'widgets/mp_catalogo_botones.dart';
+import 'screens/mp_pantalla_navegacion.dart';
+import 'screens/mp_pantalla_dialogs.dart';
 
-// ┌──────────────────────────────────────────────────────────────────┐
-// │  Cambia este número y guarda (Ctrl+S) para navegar entre pasos. │
-// │  1  Paso 1  ThemeData + Scaffold básico                         │
-// │  2  Paso 2  Modo oscuro — ThemeMode dinámico                    │
-// │  3  Paso 3  AppBar variantes y SliverAppBar                     │
-// │  4  Paso 4  Botones Material 3                                  │
-// │  5  Paso 5  NavigationBar con 4 pestañas                        │
-// │  6  Paso 6  SnackBar y AlertDialog                              │
-// └──────────────────────────────────────────────────────────────────┘
 const int paso = 6;
 
-void main() => runApp(const AppMonitoreo());
+void main() => runApp(const MpAppVet());
 
-class AppMonitoreo extends StatefulWidget {
-  const AppMonitoreo({super.key});
+class MpAppVet extends StatefulWidget {
+  const MpAppVet({super.key});
   @override
-  State<AppMonitoreo> createState() => _AppMonitoreoState();
+  State<MpAppVet> createState() => _MpAppVetState();
 }
 
-class _AppMonitoreoState extends State<AppMonitoreo> {
+class _MpAppVetState extends State<MpAppVet> {
   ThemeMode _themeMode = ThemeMode.system;
 
   @override
   Widget build(BuildContext context) {
-    const seedColor = Color(0xFF1565C0);
+    const seedColor = Color(0xFF2D6A4F);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -46,24 +37,23 @@ class _AppMonitoreoState extends State<AppMonitoreo> {
         useMaterial3: true,
       ),
       home: switch (paso) {
-        1 => const _Paso1(),
-        2 => PantallaTema(
+        1 => const _MpPaso1(),
+        2 => MpPantallaTema(
                themeMode: _themeMode,
                onToggle:  (mode) => setState(() => _themeMode = mode),
              ),
-        3 => const PantallaAppBar(),
-        4 => const CatalogoBotones(),
-        5 => const PantallaNavegacion(),
-        6 => const PantallaDialogs(),
+        3 => const MpPantallaAppBar(),
+        4 => const MpCatalogoBotones(),
+        5 => const MpPantallaNavegacion(),
+        6 => const MpPantallaDialogs(),
         _ => Scaffold(body: Center(child: Text('Paso $paso no definido'))),
       },
     );
   }
 }
 
-// ─── Paso 1 — vive en main.dart ────────────────────────────────────────
-class _Paso1 extends StatelessWidget {
-  const _Paso1();
+class _MpPaso1 extends StatelessWidget {
+  const _MpPaso1();
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +62,7 @@ class _Paso1 extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title:           const Text('Sistema de Monitoreo'),
+        title:           const Text('Vet AP - Clinica Veterinaria'),
         backgroundColor: cs.primaryContainer,
         foregroundColor: cs.onPrimaryContainer,
         actions: [
@@ -83,22 +73,22 @@ class _Paso1 extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.dns, size: 64, color: cs.primary),
+            Icon(Icons.pets, size: 64, color: cs.primary),
             const SizedBox(height: 16),
             Text(
-              'Servidor web-01',
+              'Max - Labrador',
               style: text.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
-              '10.0.2.10 · Ubuntu 24.04',
+              'Dueno: Carlos Perez · Edad: 3 anios',
               style: text.bodyMedium?.copyWith(color: cs.onSurfaceVariant),
             ),
             const SizedBox(height: 24),
             FilledButton.icon(
               onPressed: () {},
-              icon:  const Icon(Icons.terminal),
-              label: const Text('Conectar SSH'),
+              icon:  const Icon(Icons.medical_services),
+              label: const Text('Iniciar consulta'),
             ),
           ],
         ),
