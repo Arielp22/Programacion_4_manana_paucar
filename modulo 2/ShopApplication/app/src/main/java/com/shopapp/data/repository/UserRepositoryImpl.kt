@@ -1,17 +1,21 @@
 package com.shopapp.data.repository
+
+import android.content.Context
+import android.net.Uri
 import com.shopapp.data.remote.api.UserApi
+import com.shopapp.data.remote.dto.SendNotificationDto
 import com.shopapp.data.remote.dto.UserRequestDto
 import com.shopapp.data.remote.dto.toDomain
 import com.shopapp.data.remote.dto.toRequest
+import com.shopapp.domain.model.NotificationResult
 import com.shopapp.domain.model.User
 import com.shopapp.domain.model.UserPayload
 import com.shopapp.domain.repository.UserRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
-import android.content.Context
-import android.net.Uri
-import dagger.hilt.android.qualifiers.ApplicationContext
-
+// El error suele ser que falta el import de tu función de extensión personalizada para el Uri, por ejemplo:
+// import com.shopapp.data.util.toMultipart
 
 @Singleton
 class UserRepositoryImpl @Inject constructor(
@@ -58,7 +62,13 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun toggleActive(id: Int): Result<Boolean> = runCatching {
         val response = api.toggleActive(id)
         if (response.isSuccessful) response.body()!!.isActive
-        else error("Error ${response.code()}")
+        else {
+            val body = response.errorBody()?.string()
+
+            error(
+                "HTTP ${response.code()}\n$body"
+            )
+        }
     }
 
     override suspend fun getStats(): Result<Map<String, Int>> = runCatching {
@@ -73,6 +83,7 @@ class UserRepositoryImpl @Inject constructor(
             )
         } else error("Error ${response.code()}")
     }
+
     override suspend fun getProfile(): Result<User> = runCatching {
         val response = api.getProfile()
         if (response.isSuccessful) response.body()!!.toDomain()
@@ -88,4 +99,19 @@ class UserRepositoryImpl @Inject constructor(
             error(response.errorBody()?.string() ?: "Error ${response.code()}")
         }
     }
+
+    override suspend fun sendNotification(
+        subject: String,
+        message: String,
+        userId:  Int?,
+    ): Result<NotificationResult> =
+        runCatching {
+            val response = api.sendNotification(SendNotificationDto(subject, message, userId))
+            if (response.isSuccessful) {
+                val dto = response.body() ?: error("Respuesta vacía del servidor")
+                NotificationResult(dto.detail, dto.sent, dto.failed)
+            } else {
+                error(response.errorBody()?.string() ?: "Error ${response.code()}")
+            }
+        }
 }

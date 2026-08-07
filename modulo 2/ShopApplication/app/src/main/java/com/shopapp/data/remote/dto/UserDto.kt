@@ -1,4 +1,5 @@
 package com.shopapp.data.remote.dto
+
 import com.google.gson.annotations.SerializedName
 import com.shopapp.domain.model.User
 import com.shopapp.domain.model.UserPayload
@@ -13,7 +14,7 @@ data class UserDto(
     @SerializedName("is_active")   val isActive:   Boolean,
     @SerializedName("date_joined") val dateJoined: String,
     @SerializedName("num_orders")  val numOrders:  Int,
-    @SerializedName("avatar_url") val avatarUrl:  String? = null,
+    @SerializedName("avatar_url")  val avatarUrl:  String? = null,
 )
 
 data class UserRequestDto(
@@ -61,4 +62,20 @@ fun UserPayload.toRequest() = UserRequestDto(
     isStaff   = isStaff,
     isActive  = isActive,
     password  = password,
+)
+
+/** Cuerpo del POST /api/emails/send/ */
+data class SendNotificationDto(
+    @SerializedName("subject") val subject: String,
+    @SerializedName("message") val message: String,
+    @SerializedName("user_id") val userId:  Int? = null,  // null → envío masivo
+)
+
+/**
+ * Respuesta { "detail": "Correo enviado a N usuario(s).", "sent": N, "failed": M }
+ */
+data class NotificationResultDto(
+    @SerializedName("detail") val detail: String,
+    @SerializedName("sent")   val sent:   Int,
+    @SerializedName("failed") val failed: Int,
 )
